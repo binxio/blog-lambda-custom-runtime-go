@@ -27,4 +27,4 @@ clean: ## remove artifacts
 	-rm bootstrap lambda.zip
 
 artillery: ## load test
-	artillery quick --count 100 -n 100 https://pr2on1hjn5.execute-api.eu-west-1.amazonaws.com/dev/custom
+	artillery quick --count 100 -n 100 $(shell sceptre --output json describe-stack-outputs example lambda | jq -r ' .[] | select(.OutputKey=="CustomServiceEndpoint") | .OutputValue')
